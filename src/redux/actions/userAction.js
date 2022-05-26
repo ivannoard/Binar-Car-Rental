@@ -7,3 +7,15 @@ export const addUser = (user => {
     payload: user
   }
 })
+export const loginUser = (user => {
+  return {
+    type: ActionsTypes.LOGIN,
+    payload: user
+  }
+})
+export const logoutUser = (user => {
+  return {
+    type: ActionsTypes.LOGOUT,
+    payload: null
+  }
+})

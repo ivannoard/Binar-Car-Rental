@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Flex, Image, FormControl, FormLabel, Input, Button, Heading, Text, Center } from '@chakra-ui/react';
 import login from '../images/login_img.png'
 import car from '../images/car.png'
-import { Link, Navigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useDispatch } from 'react-redux'
-import { addUser } from '../redux/actions/userAction'
+import { loginUser } from '../redux/actions/userAction'
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 const LoginComponent = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const dispatch = useDispatch()
-  const register = () => {
-    console.log(email, password);
-    dispatch(addUser({ email, password }))
-    setEmail('')
-    setPassword('')
+  const [success, setSuccess] = useState(false)
+
+  const handleRegister = (e) => {
+    e.preventDefault()
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        dispatch(loginUser(user))
+        setSuccess(true)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  useEffect(() => {
-    register()
-  }, [])
   return (
     <Flex>
       <Box w={
@@ -53,11 +60,12 @@ const LoginComponent = () => {
               h='100px'
             />
             <Heading as='h6' size='md' my='3' isTruncated>Register Account</Heading>
+            {success && <Text bg='green' color='white' p='2' mb='3'>Register success please login!</Text>}
             <FormLabel htmlFor='email'>Email address</FormLabel>
             <Input id='email' type='email' mb='3' value={email} onChange={(e) => setEmail(e.target.value)} />
             <FormLabel htmlFor='password'>Password</FormLabel>
             <Input id='password' type='password' mb='5' value={password} onChange={(e) => setPassword(e.target.value)} />
-            <Button w='100%' colorScheme='blue' onClick={register}>Register</Button>
+            <Button w='100%' colorScheme='blue' onClick={handleRegister}>Register</Button>
           </FormControl>
           <Center mt='2'>
             <Link to='/login'>Already have an account? Sign in!</Link>

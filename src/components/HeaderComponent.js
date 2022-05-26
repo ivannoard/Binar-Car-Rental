@@ -1,40 +1,38 @@
-import { Box, Button, Circle, Container, Flex, FormControl, FormLabel, Heading, Image, Input, Select, Spacer, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Image, Select, Spacer, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import car from '../images/img_car.png'
-import { useLocation } from 'react-router-dom'
-import { FaArrowLeft } from 'react-icons/fa'
+import { useLocation, Link } from 'react-router-dom'
 import PaymentNavigation from './PaymentNavigation'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { searchCar } from '../redux/actions/carActions'
+import { searchField } from '../redux/actions/carActions'
+import { logoutUser } from '../redux/actions/userAction'
+
 const HeaderComponent = () => {
   const cars = useSelector(state => state.allCars.cars)
   const location = useLocation()
   const dispatch = useDispatch()
-  // style={{ paddingBottom: '70px' }}
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [time, setTime] = useState('')
   const [penumpang, setPenumpang] = useState('')
+
   function handleSearch() {
-    console.log(name, category, time, penumpang);
-    dispatch(searchCar(name, category, time, penumpang))
+    dispatch(searchField(name, category, time, penumpang))
     setName('')
     setCategory('')
     setTime('')
     setPenumpang('')
   }
 
-  let carsCategory = cars.map(item => item.category)
+  const handleLogout = () => {
+    dispatch(logoutUser())
+  }
+
+  let carsCategory = cars.map(item => item.docData.categorycar)
   carsCategory = [...new Set(new Set(carsCategory))].sort()
-  const logout = () => {
-    window.open("http://localhost:5000/auth/logout", "_self");
-  };
-  // if (cars.length !== 0) {
-  //   const result = []
-  //   cars.reduce((prev, current) => result.push(current.category))
-  //   console.log(result);
-  // }
+  let carsYear = cars.map(item => item.docData.year)
+  carsYear = [...new Set(new Set(carsYear))].sort()
+
   return (
     <div className="Header">
       <Box maxW='100%' bg='#F1F3FF' pt='3' pb={location.pathname !== '/' ? '70px' : ''}>
@@ -52,7 +50,7 @@ const HeaderComponent = () => {
                 <Text>Why Us</Text>
                 <Text>Testimonial</Text>
                 <Text>FAQ</Text>
-                <Button colorScheme='green' onClick={logout}>Logout</Button>
+                <Button colorScheme='green' onClick={handleLogout}>Logout</Button>
               </Flex>
             </Box>
           </Flex>
@@ -83,17 +81,17 @@ const HeaderComponent = () => {
           <Flex gap='5' align='center' justify='space-between' wrap='wrap'>
             <Box>
               <FormControl>
-                <FormLabel htmlFor='namamobil'>Nama Mobil</FormLabel>
+                <FormLabel htmlFor='namamobil'>Car Name</FormLabel>
                 <Select id='namamobil' placeholder='Nama Mobil' w='210px' isDisabled={location.pathname === '/' ? false : true} onChange={(e) => setName(e.target.value)}>
                   {cars.map(item => (
-                    <option key={item.id} value={item.name} >{item.name}</option>
+                    <option key={item.id} value={item.docData.namecar} >{item.docData.namecar}</option>
                   ))}
                 </Select>
               </FormControl>
             </Box>
             <Box>
               <FormControl>
-                <FormLabel htmlFor='ukuranmobil'>Ukuran Mobil</FormLabel>
+                <FormLabel htmlFor='ukuranmobil'>Car Category</FormLabel>
                 <Select id='ukuranmobil' placeholder='Ukuran Mobil' w='210px' isDisabled={location.pathname === '/' ? false : true} onChange={(e) => setCategory(e.target.value)} >
                   {carsCategory.map((item, index) => (
                     <option key={index} value={item}>{item}</option>
@@ -104,20 +102,20 @@ const HeaderComponent = () => {
             </Box>
             <Box>
               <FormControl>
-                <FormLabel htmlFor='tahunmobil'>Tahun Mobil</FormLabel>
+                <FormLabel htmlFor='tahunmobil'>Car Year</FormLabel>
                 <Select id='tahunmobil' placeholder='Tahun Mobil' w='210px' isDisabled={location.pathname === '/' ? false : true} onChange={(e) => setTime(e.target.value)} >
-                  {cars.map(item => (
-                    <option key={item.id} value={item.time}>{new Date(item.time).getFullYear()}</option>
+                  {carsYear.map((item, index) => (
+                    <option key={index} value={item}>{item}</option>
                   ))}
                 </Select>
               </FormControl>
             </Box>
             <Box>
               <FormControl>
-                <FormLabel htmlFor='penumpang'>Jumlah Penumpang (optional)</FormLabel>
+                <FormLabel htmlFor='penumpang'>Passenger (optional)</FormLabel>
                 <Select id='penumpang' placeholder='Jumlah Penumpang' w='210px' isDisabled={location.pathname === '/' ? false : true} onChange={(e) => setPenumpang(e.target.value)} >
                   {cars.map(item => (
-                    <option key={item.id} value={item.penumpang}>{item.penumpang}</option>
+                    <option key={item.id} value={item.docData.passenger}>{item.docData.passenger}</option>
                   ))}
                 </Select>
               </FormControl>

@@ -1,6 +1,7 @@
 import { Box, Circle, Container, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 function PaymentStep({ second, third }) {
   return (
@@ -25,11 +26,12 @@ function PaymentStep({ second, third }) {
 }
 
 const PaymentNavigation = ({ second, third }) => {
+  const navigate = useNavigate()
   return (
     <Container maxW='1200px' margin='auto' pt='5'>
       <Flex align='center'>
         <Box w='50%'>
-          <Flex gap='2'>
+          <Flex gap='2' cursor='pointer' onClick={() => navigate(-1)}>
             <FaArrowLeft />
             <Box>
               <Heading size='sm'>Pembayaran</Heading>

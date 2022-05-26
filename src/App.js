@@ -7,51 +7,41 @@ import {
 import DashboardComponent from './components/DashboardComponent'
 import CarDetailComponent from './components/CarDetailComponent'
 import PaymentComponent from './components/PaymentComponent'
-import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
-import { setCars, fetchCars } from './redux/actions/carActions'
-import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
+import React from 'react'
 import LoginComponent from './components/LoginComponent';
 import RegisterComponent from './components/RegisterComponent';
-function App() {
-  const dispatch = useDispatch()
-  const [user, setUser] = useState(null);
-  console.log(user);
+import AdminComponent from './components/admin/AdminComponent';
+import AdminListComponent from './components/admin/AdminListComponent';
+import AdminAddComponent from './components/admin/AdminAddComponent';
+import AdminUpdateComponent from './components/admin/AdminUpdateComponent';
+import PaymentDetailComponent from './components/PaymentDetailComponent';
+import InvoiceComponent from './components/InvoiceComponent';
 
-  useEffect(() => {
-    dispatch(fetchCars())
-    const getUser = () => {
-      fetch("http://localhost:5000/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, [])
+function App() {
+
+  const currentUser = useSelector(state => state.users.users)
+
+  const RequireAuth = ({ children }) => {
+    return currentUser !== null ? children : <Navigate to='/login' />
+  }
+
   return (
     <div className="App">
 
       <Routes>
-        <Route path='/' element={user !== null ? <DashboardComponent /> : <Navigate to='/login' />} />
-        <Route path='/login' element={user === null ? <LoginComponent /> : <Navigate to='/' />} />
+        <Route path='/login' element={<LoginComponent />} />
         <Route path='/register' element={<RegisterComponent />} />
-        <Route path='/car-detail/:id' element={<CarDetailComponent />} />
-        <Route path='/payment/' element={<PaymentComponent />} />
+        <Route path='/' element={<RequireAuth><DashboardComponent /></RequireAuth>} />
+        <Route path='/admin' element={<RequireAuth><AdminComponent /></RequireAuth>} />
+        <Route path='/admin/list' element={<RequireAuth><AdminListComponent /></RequireAuth>} />
+        <Route path='/admin/add' element={<RequireAuth><AdminAddComponent /></RequireAuth>} />
+        <Route path='/admin/update/:carId' element={<RequireAuth><AdminUpdateComponent /></RequireAuth>} />
+        <Route path='/car-detail/:id' element={<RequireAuth><CarDetailComponent /></RequireAuth>} />
+        <Route path='/payment/' element={<RequireAuth><PaymentComponent /></RequireAuth>} />
+        <Route path='/payment/detail' element={<RequireAuth><PaymentDetailComponent /></RequireAuth>} />
+        <Route path='/payment/invoice' element={<RequireAuth><InvoiceComponent /></RequireAuth>} />
       </Routes>
 
     </div>

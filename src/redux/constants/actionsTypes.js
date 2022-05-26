@@ -6,5 +6,7 @@ export const ActionsTypes = {
   SEARCH_CAR: "SEARCH_CAR",
   SET_BUTTON: "SET_BUTTON",
   REMOVE_CARS: "REMOVE_CARS",
-  ADD_USER: "ADD_USER"
+  ADD_USER: "ADD_USER",
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT"
 }

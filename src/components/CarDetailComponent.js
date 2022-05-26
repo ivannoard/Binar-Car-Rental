@@ -3,32 +3,23 @@ import React, { useEffect } from 'react'
 import { FaCarAlt, FaRegCalendar, FaUserFriends } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
-import { setCar, setButton, removeCar, fetchCar } from '../redux/actions/carActions'
+import { removeCar } from '../redux/actions/carActions'
 import TemplateComponent from './TemplateComponent'
+
 const CarDetailComponent = () => {
   const { id } = useParams()
-
-  const carData = useSelector((state) => state.carDetail)
+  const cars = useSelector(state => state.allCars.cars)
   const button = useSelector(state => state.button.btn)
-  // const time = new Date(carData.time).getFullYear()
   const dispatch = useDispatch()
 
-  // const fetchCar = async (id) => {
-  //   const response = await axios.get("https://625bcc2d50128c57020785c4.mockapi.io/binarcar/mobil/" + id)
-  //     .catch(err => console.log('error: ', err))
-  //   dispatch(setCar(response.data))
-  //   dispatch(setButton('Lanjutkan Pembayaran'))
-  // }
-
   useEffect(() => {
-    if (id && id !== "") dispatch(fetchCar(id))
     return () => {
       dispatch(removeCar())
     }
   }, [id])
 
-  console.log(carData);
+  const detailData = cars.filter(item => item.id === id)[0]
+  console.log(detailData);
 
   return (
     <TemplateComponent>
@@ -73,36 +64,36 @@ const CarDetailComponent = () => {
               </Box>
               <Box w='30%' h='100%' rounded='lg' boxShadow='md' p='5'>
                 <Image
-                  src={carData.image}
+                  src={detailData.docData.photocar}
                   h='160px'
                   w='100%'
                 />
-                <Text my='2'>{carData.name}</Text>
+                <Text my='2'>{detailData.docData.namecar}</Text>
                 <Box my='2'>
                   <Flex gap='2'>
                     <Box>
                       <Flex gap='1' align='center'>
                         <FaUserFriends />
-                        <Text>{carData.penumpang}</Text>
+                        <Text>{detailData.docData.passenger}</Text>
                       </Flex>
                     </Box>
                     <Box>
                       <Flex gap='1' align='center'>
                         <FaCarAlt />
-                        <Text>{carData.category}</Text>
+                        <Text>{detailData.docData.categorycar}</Text>
                       </Flex>
                     </Box>
                     <Box>
                       <Flex gap='1' align='center'>
                         <FaRegCalendar />
-                        <Text>Tahun {new Date(carData.time).getFullYear()}</Text>
+                        <Text>Tahun {detailData.docData.year}</Text>
                       </Flex>
                     </Box>
                   </Flex>
                 </Box>
                 <Flex justify='space-between' mt='10' mb='3'>
                   <Text>Total</Text>
-                  <Heading size='md'>Rp {carData.price}</Heading>
+                  <Heading size='md'>Rp {detailData.docData.pricecar}</Heading>
                 </Flex>
                 <Link to='/payment'>
                   <Button colorScheme='green' w='100%'>{button}</Button>
