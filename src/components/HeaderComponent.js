@@ -44,7 +44,7 @@ const HeaderComponent = () => {
               </Heading>
             </Link>
             <Spacer />
-            <Box>
+            <Box display={{ base: 'none', md: 'block' }}>
               <Flex align='center' gap='4'>
                 <Text>Our Services</Text>
                 <Text>Why Us</Text>
@@ -56,8 +56,8 @@ const HeaderComponent = () => {
           </Flex>
         </Container>
         {location.pathname === '/' ? (<Container maxW='1440px' margin='auto' pt='5'>
-          <Flex align='center'>
-            <Box w='50%'>
+          <Flex align='center' display='flex' wrap='wrap'>
+            <Box w={{ base: '100%', md: '50%' }}>
               <Heading>
                 Sewa & Rental Mobil Terbaik di kawasan (Lokasimu)
               </Heading>
@@ -65,7 +65,7 @@ const HeaderComponent = () => {
                 Selamat datang di Binar Car Rental. Kami menyediakan mobil kualitas terbaik dengan harga terjangkau. Selalu siap melayani kebutuhanmu untuk sewa mobil selama 24 jam.
               </Text>
             </Box>
-            <Box w='50%'>
+            <Box w={{ base: '100%', md: '50%' }}>
               <Image src={car}
                 h='407px'
                 w='704px' />

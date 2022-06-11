@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 function PaymentStep({ second, third }) {
   return (
-    <Flex justify='space-between' gap='2'>
+    <Flex justify='space-between' gap='2' align='center'>
       <Spacer />
       <Flex gap='2' align='center'>
         <Circle className='btn-navigate-active' w='15px' h='15px' p='2.5' fontSize='sm'>1</Circle>
@@ -29,8 +29,8 @@ const PaymentNavigation = ({ second, third }) => {
   const navigate = useNavigate()
   return (
     <Container maxW='1200px' margin='auto' pt='5'>
-      <Flex align='center'>
-        <Box w='50%'>
+      <Flex align='center' wrap='wrap'>
+        <Box w={{ base: '100%', md: '50%' }}>
           <Flex gap='2' cursor='pointer' onClick={() => navigate(-1)}>
             <FaArrowLeft />
             <Box>
@@ -38,7 +38,7 @@ const PaymentNavigation = ({ second, third }) => {
             </Box>
           </Flex>
         </Box>
-        <Box w='50%'>
+        <Box w={{ base: '100%', md: '50%' }} mt={{ base: '30px', md: '0' }} display={{ base: 'flex', md: 'block' }} justify={{ base: 'center' }} align='center'>
           <PaymentStep second={second} third={third} />
         </Box>
       </Flex>

@@ -26,8 +26,8 @@ const CarDetailComponent = () => {
       <div className="CarDetail">
         <Box maxW='100%'>
           <Container maxW='1200px' margin='auto'>
-            <Flex w='100%' justify='space-between' gap='10'>
-              <Box w='70%' >
+            <Flex w='100%' justify='space-between' gap='10' wrap={{ base: 'wrap', md: 'nowrap' }} direction={{ base: 'column-reverse', md: 'row' }}>
+              <Box w={{ base: '100%', md: '70%' }} >
                 <Box p='5' rounded='lg' boxShadow='md'>
                   <Heading size='md' my='2'>Tentang Paket</Heading>
                   <Text>Include</Text>
@@ -62,7 +62,7 @@ const CarDetailComponent = () => {
                   </Link>
                 </Box>
               </Box>
-              <Box w='30%' h='100%' rounded='lg' boxShadow='md' p='5'>
+              <Box w={{ base: '100%', md: '30%' }} h='100%' rounded='lg' boxShadow='md' p='5'>
                 <Image
                   src={detailData.docData.photocar}
                   h='160px'

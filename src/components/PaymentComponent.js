@@ -26,8 +26,8 @@ const PaymentComponent = () => {
       <TemplateComponent>
         <Box maxW='100%'>
           <Container maxW='1200px' margin='auto'>
-            <Flex w='100%' justify='space-between' gap='10'>
-              <Box w='70%' p='5' rounded='lg' boxShadow='md' h='100%'>
+            <Flex w='100%' justify='space-between' gap='10' wrap={{ base: 'wrap', md: 'nowrap' }}>
+              <Box w={{ base: '100%', md: '70%' }} p='5' rounded='lg' boxShadow='md' h='100%'>
                 <Heading size='md'>Pilih Bank Transfer</Heading>
                 <Text mt='3'>Kamu bisa membayar dengan transfer melalui ATM, Internet Banking atau Mobile Banking</Text>
                 <Box mt='3'>
@@ -39,7 +39,7 @@ const PaymentComponent = () => {
                 </Box>
               </Box>
 
-              <Box rounded='lg' boxShadow='md' w='30%' h='100%' bg='white' p='5'>
+              <Box rounded='lg' boxShadow='md' w={{ base: '100%', md: '30%' }} h='100%' bg='white' p='5'>
                 <Text my='2'>Nama / Tipe Mobil</Text>
                 <Box my='2'>
                   <Flex gap='2'>

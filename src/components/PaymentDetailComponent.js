@@ -9,8 +9,8 @@ const PaymentDetailComponent = () => {
     <TemplateComponent>
       <Box maxW='100%'>
         <Container maxW='1200px' margin='auto' mt='5'>
-          <Flex justify='space-between' gap='10' w='100%'>
-            <Box w='70%' >
+          <Flex justify='space-between' gap='10' w='100%' wrap={{ base: 'wrap', md: 'nowrap' }}>
+            <Box w={{ base: '100%', md: '70%' }} >
               <Flex align='center' rounded='lg' justify='space-between' boxShadow='md' bg='white' p='5'>
                 <Box>
                   <Heading size='sm'>Selesaikan Pembayaran Sebelum</Heading>
@@ -65,7 +65,7 @@ const PaymentDetailComponent = () => {
                 </Flex>
               </Box>
             </Box>
-            <Box w='30%' h='100%' p='5' rounded='lg' boxShadow='md' bg='white'>
+            <Box w={{ base: '100%', md: '30%' }} h='100%' p='5' rounded='lg' boxShadow='md' bg='white'>
               {!detail ? (
                 <>
                   <Text>Klik konfirmasi pembayaran untuk mempercepat proses pengecekan</Text>
