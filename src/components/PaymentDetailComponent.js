@@ -11,6 +11,9 @@ const PaymentDetailComponent = () => {
   const tomorrow = new Date(today)
   tomorrow.setDate(tomorrow.getDate() + 1)
   const time = `${tomorrow.getHours()}:${tomorrow.getMinutes()}`
+  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
   return (
     <TemplateComponent>
       <Box maxW='100%'>
@@ -20,7 +23,7 @@ const PaymentDetailComponent = () => {
               <Flex align='center' rounded='lg' justify='space-between' boxShadow='md' bg='white' p='5'>
                 <Box>
                   <Heading size='sm'>Selesaikan Pembayaran Sebelum</Heading>
-                  <Text>{days[tomorrow.getDay() - 1]}, {tomorrow.getDate()} {tomorrow.getMonth()} {tomorrow.getFullYear()} jam {time} WIB</Text>
+                  <Text>{days[tomorrow.getDay() - 1]}, {tomorrow.getDate()} {monthNames[tomorrow.getMonth()]} {tomorrow.getFullYear()} jam {time} WIB</Text>
                 </Box>
                 <Box>
                   <Text fontSize='30px' color='tomato'>
