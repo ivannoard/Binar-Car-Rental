@@ -1,7 +1,7 @@
 import { Box, Button, Container, Flex, Heading, Image, ListItem, Text, UnorderedList } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { FaCarAlt, FaRegCalendar, FaUserFriends } from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeCar } from '../redux/actions/carActions'
 import TemplateComponent from './TemplateComponent'
@@ -11,6 +11,7 @@ const CarDetailComponent = () => {
   const cars = useSelector(state => state.allCars.cars)
   const button = useSelector(state => state.button.btn)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     return () => {
@@ -20,6 +21,10 @@ const CarDetailComponent = () => {
 
   const detailData = cars.filter(item => item.id === id)[0]
   console.log(detailData);
+
+  const handleDetail = () => {
+    navigate('/payment', { state: { data: detailData } })
+  }
 
   return (
     <TemplateComponent>
@@ -95,9 +100,9 @@ const CarDetailComponent = () => {
                   <Text>Total</Text>
                   <Heading size='md'>Rp {detailData.docData.pricecar}</Heading>
                 </Flex>
-                <Link to='/payment'>
-                  <Button colorScheme='green' w='100%'>{button}</Button>
-                </Link>
+                {/* <Link to='/payment'> */}
+                <Button colorScheme='green' w='100%' onClick={() => handleDetail()}>{button}</Button>
+                {/* </Link> */}
               </Box>
             </Flex>
           </Container>

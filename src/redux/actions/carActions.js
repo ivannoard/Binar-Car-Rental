@@ -6,8 +6,7 @@ import { db } from '../../firebase'
 export const fetchCars = () => {
   return async function (dispatch, getState) {
     try {
-      const unsub = onSnapshot(
-        collection(db, "cars"),
+      const unsub = onSnapshot(collection(db, "cars"),
         (snapShot) => {
           let list = [];
           snapShot.docs.forEach((doc) => {
@@ -71,39 +70,6 @@ export const searchField = (name = '', category = '', time = '', penumpang = '')
     }
   }
 }
-
-// export const searchCar = (name = '', category = '', time = '', penumpang = '') => {
-//   return async function (dispatch) {
-//     try {
-//       const arr = []
-//       if (name !== '') {
-//         const response = await carsapi.get(`/mobil?name=${name}`)
-//         arr.push(response.data)
-//         if (category !== '') {
-//           const response = await carsapi.get(`/mobil?category=${category}`)
-//           arr.push(response.data)
-//         } else if (time !== '') {
-//           const response = await carsapi.get(`/mobil?time=${time}`)
-//           arr.push(response.data)
-//         } else if (penumpang !== '') {
-//           const response = await carsapi.get(`/mobil?penumpang=${penumpang}`)
-//           arr.push(response.data)
-//         }
-//       } else if (category !== '') {
-//         const response = await carsapi.get(`/mobil?category=${category}`)
-//         arr.push(response.data)
-//       } else if (name === '' || category === '' || time === '' || penumpang === '') {
-//         const response = await carsapi.get(`/mobil`)
-//         arr.push(response.data)
-//       }
-//       const result = arr.reduce((prev, next) => prev.concat(next))
-//       console.log(result);
-//       dispatch({ type: ActionsTypes.SEARCH_CAR, payload: result })
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   }
-// }
 
 export const setButton = (car => {
   return {

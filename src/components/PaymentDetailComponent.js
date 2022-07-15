@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { Box, Container, Flex, Button, Heading, Text, Center, FormControl, FormLabel, Input, UnorderedList, ListItem } from '@chakra-ui/react'
 import { FaFileImage } from 'react-icons/fa'
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import TemplateComponent from './TemplateComponent'
 const PaymentDetailComponent = () => {
   const [detail, setDetail] = useState(false)
+  const { state } = useLocation()
+  const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const time = `${tomorrow.getHours()}:${tomorrow.getMinutes()}`
   return (
     <TemplateComponent>
       <Box maxW='100%'>
@@ -14,30 +20,30 @@ const PaymentDetailComponent = () => {
               <Flex align='center' rounded='lg' justify='space-between' boxShadow='md' bg='white' p='5'>
                 <Box>
                   <Heading size='sm'>Selesaikan Pembayaran Sebelum</Heading>
-                  <Text>Rabu, 19 Jun 2022 jam 13.00 WIB</Text>
+                  <Text>{days[tomorrow.getDay() - 1]}, {tomorrow.getDate()} {tomorrow.getMonth()} {tomorrow.getFullYear()} jam {time} WIB</Text>
                 </Box>
                 <Box>
                   <Text fontSize='30px' color='tomato'>
-                    12:00:00
+                    {time}
                   </Text>
                 </Box>
               </Flex>
               <Box rounded='lg' boxShadow='md' bg='white' p='5' mt='10'>
                 <Heading size='sm'>Lakukan Transfer Ke</Heading>
                 <Flex gap='2' mt='3'>
-                  <Center bg='white' rounded='md' w='60px' h='30px' px='18px' py='6px' border='1px solid #E5E5E5;'>BNI</Center>
+                  <Center bg='white' rounded='md' w='60px' h='30px' px='18px' py='6px' border='1px solid #E5E5E5;'>{state.bank}</Center>
                   <Box>
-                    <Text>BNI Transfer</Text>
+                    <Text>{state.bank} Transfer</Text>
                     <Text>a.n Binar Car Rental</Text>
                   </Box>
                 </Flex>
-                <FormControl>
+                <FormControl mt={3}>
                   <FormLabel htmlFor='rekening' color='grey'>Nomor Rekening</FormLabel>
-                  <Input id='rekening' type='text' w='100%' placeholder='xxx-xxx-xxx' isReadOnly />
+                  <Input id='rekening' type='text' w='100%' placeholder='No. Rekening' />
                 </FormControl>
-                <FormControl>
+                <FormControl mt={3}>
                   <FormLabel htmlFor='total' color='grey'>Total Bayar</FormLabel>
-                  <Input id='total' type='text' w='100%' value='Rp.230.000' isReadOnly />
+                  <Input id='total' type='text' w='100%' value={`Rp. ${state.car.docData.pricecar}`} isReadOnly />
                 </FormControl>
               </Box>
               <Box rounded='lg' boxShadow='md' bg='white' p='5' mt='10'>
@@ -76,7 +82,7 @@ const PaymentDetailComponent = () => {
                   <Flex justify='space-between' align='center' mb='3'>
                     <Heading size='sm'>Konfirmasi Pembayaran</Heading>
                     <Text fontSize='20px' color='tomato'>
-                      12:00:00
+                      {time}
                     </Text>
                   </Flex>
                   <Text mb='3'>Terima kasih telah melakukan konfirmasi pembayaran. Pembayaranmu akan segera kami cek tunggu kurang lebih 10 menit untuk mendapatkan konfirmasi.</Text>
